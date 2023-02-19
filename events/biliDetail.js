@@ -9,7 +9,7 @@ module.exports = {
      * @param {Message} message 
      */
     async execute(message) {
-        if (message.author.bot || message.guildId != '922311191307624448') return;
+        if (message.author.bot) return;
         const dynPattern = /^(https?:\/\/)?t\.bilibili\.com\/\d+/;
         if (dynPattern.test(message.content)) {
             await getDynamicDetail(message.content.match(/(?<=t\.bilibili\.com\/)\d+/)[0])
@@ -19,7 +19,6 @@ module.exports = {
                     });
                 })
                 .catch(error => console.log(error));
-
         }
     }
 }
