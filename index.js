@@ -1,6 +1,6 @@
 require('dotenv').config();
 // const { token, DB_TOKEN } = process.env;
-const { token } = process.env;
+// const { token } = process.env;
 // const { connect, connection } = require('mongoose');
 const path = require('path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
@@ -53,7 +53,7 @@ for (const file of mongoFiles) {
 
 require('./deploy-commands')(client);
 client.handleCommands();
-client.login(token);
+client.login(process.env.TOKEN);
 // (async () => {
 //     await connect(DB_TOKEN).catch(console.error);
 // })();
