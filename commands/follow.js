@@ -53,7 +53,7 @@ module.exports = {
                         interaction.editReply({ embeds: [embed], components: [row] });
                     });
                 } else {
-                    interaction.editReply('请求错误');
+                    interaction.editReply('uid错误或该用户没有关注');
                 }
             })
             .catch(error => console.log(error));

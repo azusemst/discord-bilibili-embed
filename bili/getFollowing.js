@@ -19,6 +19,8 @@ async function getFollowing(uid, page) {
 }
 
 function followProcess(data, page) {
+    if (data.list.length == 0) return;
+
     let desc = '';
     for (let i = 0; i < data.list.length; i++) {
         desc += `${data.total - (page - 1) * 50 - i}. [${data.list[i].uname}](https://space.bilibili.com/${data.list[i].mid})\n`;
