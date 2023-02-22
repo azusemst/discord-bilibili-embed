@@ -48,7 +48,8 @@ module.exports = {
                                 new ButtonBuilder()
                                     .setCustomId('next')
                                     .setLabel('>')
-                                    .setStyle(ButtonStyle.Primary),
+                                    .setStyle(ButtonStyle.Primary)
+                                    .setDisabled(embed.length < 50),
                             );
                         interaction.editReply({ embeds: [embed], components: [row] });
                     });
