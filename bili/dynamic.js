@@ -1,5 +1,4 @@
 const { escapeMarkdown } = require('discord.js');
-// const fs = require('fs');
 
 const types = {
     1: '转发', // ok
@@ -45,7 +44,7 @@ function dynamicProcess(dynamic, id, show_detail = true) {
         return;
     }
     const card = JSON.parse(dynamic.card.card);
-    console.log(`type = ${dynamic.card.desc.type}`);
+    // console.log(`type = ${dynamic.card.desc.type}`);
     // fs.writeFile('dt_template/4308.json', JSON.stringify(dynamic), (err) => {
     //     if (err) throw err;
     //     console.log('The file has been saved!');
@@ -237,5 +236,16 @@ function addPic(embeds, picArr) {
     return false;
 }
 
-module.exports = { getDynamicDetail };
-// getDynamicDetail('764391070929780838').then(data => console.log(data)).catch(error => console.log(error));
+async function getUpdate(uid) {
+    return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`)
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log(`Fetching dynamic history uid = ${uid}`);
+            return {
+                timestamp: data.data.cards[0].desc.timestamp * 1000,
+                dynamic_id: data.data.cards[0].desc.dynamic_id_str
+            };
+        })
+}
+
+module.exports = { getDynamicDetail, getUpdate };
