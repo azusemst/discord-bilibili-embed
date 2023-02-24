@@ -1,6 +1,5 @@
 const { Events, Client } = require('discord.js');
 const { getDynamicDetail, getUpdate } = require('../bili/dynamic');
-const feed_channel = '931954419619201084', user = '271887040', update_interval = 60000;
 
 module.exports = {
     name: Events.ClientReady,
@@ -14,17 +13,17 @@ module.exports = {
 
         // get dynamic update
         setInterval(() => {
-            getUpdate(user).then(update => {
-                if (Date.now() - update.timestamp < update_interval + 3000) { // 有时候会错过所以+3s
+            getUpdate(process.env.FOLLOWED_USER).then(update => {
+                if (Date.now() - update.timestamp < parseInt(process.env.UPD_INTERVAL) + 3000) { // 有时候会错过所以+3s
                     getDynamicDetail(update.dynamic_id).then(embed => {
-                        client.channels.fetch(feed_channel).then(channel => {
+                        client.channels.fetch(process.env.FEED_CHANNEL).then(channel => {
                             channel.send({ embeds: embed });
                         })
                     });
                     console.log(`Updated: dynamic_id=${update.dynamic_id}`);
                 }
             })
-        }, update_interval);
+        }, process.env.UPD_INTERVAL);
 
     },
 };
