@@ -41,6 +41,9 @@ Create a `.env` file. In the file, add two tokens
 ```
 TOKEN="your bot token"
 CLIENT_ID="your bot client id"
+FOLLOWED_USER="bilibili uid"
+FEED_CHANNEL="discord channel id"
+UPD_INTERVAL="time interval in ms"
 ```
 Run the bot
 ```
