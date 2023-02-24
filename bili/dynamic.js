@@ -240,7 +240,7 @@ async function getUpdate(uid) {
     return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`)
         .then((response) => response.json())
         .then((data) => {
-            // console.log(`Fetching dynamic history uid = ${uid}`);
+            console.log(`Fetching dynamic history uid=${uid}, latest=${new Date(data.data.cards[0].desc.timestamp * 1000).toISOString()}`);
             return {
                 timestamp: data.data.cards[0].desc.timestamp * 1000,
                 dynamic_id: data.data.cards[0].desc.dynamic_id_str

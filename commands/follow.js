@@ -25,6 +25,7 @@ module.exports = {
             await interaction.reply('uid格式错误');
             return;
         }
+        console.log(`/follow by ${interaction.user.tag}`);
 
         // process embed
         await interaction.deferReply({ ephemeral: true });
