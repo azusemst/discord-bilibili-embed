@@ -29,16 +29,16 @@ const types = {
 /**
  * @param {string} dynamic_id 
  */
-async function getDynamicDetail(dynamic_id) {
+async function getDynamicDetail(dynamic_id, show_detail = true) {
     return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/get_dynamic_detail?dynamic_id=${dynamic_id}`)
         .then((response) => response.json())
         .then((data) => {
             console.log(`Fetching dynamic_id = ${dynamic_id}`);
-            return dynamicProcess(data.data, dynamic_id);
+            return dynamicProcess(data.data, dynamic_id, show_detail);
         })
 }
 
-function dynamicProcess(dynamic, id, show_detail = true) {
+function dynamicProcess(dynamic, id, show_detail) {
     if (!('card' in dynamic)) {
         console.log('404 Not Found');
         return;
@@ -236,11 +236,18 @@ function addPic(embeds, picArr) {
     return false;
 }
 
+/**
+ * @param {string} uid 
+ */
 async function getUpdate(uid) {
     return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`)
         .then((response) => response.json())
         .then((data) => {
             console.log(`Fetching dynamic history uid=${uid}, latest=${new Date(data.data.cards[0].desc.timestamp * 1000).toISOString()}`);
+            if (data.code != 0) {
+                console.log(`Error: ${data.code}`);
+                return;
+            }
             return {
                 timestamp: data.data.cards[0].desc.timestamp * 1000,
                 dynamic_id: data.data.cards[0].desc.dynamic_id_str
