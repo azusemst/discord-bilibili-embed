@@ -14,6 +14,10 @@ module.exports = {
 
         // init
         const userArr = process.env.FOLLOWED_USER.split(',');
+        if (userArr.length > 9) {
+            console.log('Error: more than 9 users');
+            return;
+        }
         const dyns = {};
         for (user of userArr) {
             const update = await getUpdate(user);
@@ -29,6 +33,7 @@ module.exports = {
                 if (BigInt(update) > BigInt(dyns[user])) {
                     const embed = await getDynamicDetail(update, false)
                     await channel.send({ embeds: embed });
+                    dyns[user] = update;
                 }
             }
 
