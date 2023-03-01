@@ -30,15 +30,16 @@ In a new folder:
 git clone https://github.com/azusemst/discord-bilibili-embed.git
 ```
 Install packages
-```
+```console
+npm init -y
 npm i discord.js dotenv
 ```
 Uncomment this line in `index.js`
-```
+```js
 // require('dotenv').config();
 ```
 Create a `.env` file. In the file, add two tokens
-```
+```js
 TOKEN="your bot token"
 CLIENT_ID="your bot client id"
 FOLLOWED_USER="bilibili uid"

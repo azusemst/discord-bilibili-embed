@@ -12,11 +12,11 @@ module.exports = {
     async execute(message) {
         if (message.author.bot) return;
 
-        const dynPattern = /^(https?:\/\/)?t\.bilibili\.com\/\d+/;
+        const dynPattern = /t\.bilibili\.com\/\d+|bilibili\.com\/opus\/\d+/;
         const vidPattern = /((av\d{1,9})|(BV\w{8,10}))(?!\w)/;
 
         if (dynPattern.test(message.content)) {
-            await getDynamicDetail(message.content.match(/(?<=t\.bilibili\.com\/)\d+/)[0])
+            await getDynamicDetail(message.content.match(/(?<=bilibili\.com\/(opus\/)?)\d+/)[0])
                 .then(embed => {
                     if (embed) message.reply({
                         embeds: embed

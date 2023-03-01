@@ -238,6 +238,7 @@ function addPic(embeds, picArr) {
 
 /**
  * @param {string} uid 
+ * @returns {Promise<string>}
  */
 async function getUpdate(uid) {
     return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`)
@@ -248,10 +249,7 @@ async function getUpdate(uid) {
                 console.log(`Error: ${data.code}`);
                 return;
             }
-            return {
-                timestamp: data.data.cards[0].desc.timestamp * 1000,
-                dynamic_id: data.data.cards[0].desc.dynamic_id_str
-            };
+            return data.data.cards[0].desc.dynamic_id_str;
         })
 }
 

@@ -1,5 +1,6 @@
 const { Events, Client } = require('discord.js');
 const { getDynamicDetail, getUpdate } = require('../bili/dynamic');
+const { getLiveStatus } = require('../bili/live');
 
 module.exports = {
     name: Events.ClientReady,
@@ -8,23 +9,36 @@ module.exports = {
      * 
      * @param {Client} client 
      */
-    execute(client) {
+    async execute(client) {
         console.log(`Ready: Logged in as ${client.user.tag}`);
 
-        // get dynamic update
+        // init
         const userArr = process.env.FOLLOWED_USER.split(',');
-        setInterval(() => {
+        const dyns = {};
+        for (user of userArr) {
+            const update = await getUpdate(user);
+            dyns[user] = update;
+        }
+        const lives = await getLiveStatus(userArr);
+        const channel = await client.channels.fetch(process.env.FEED_CHANNEL);
+
+        setInterval(async () => {
+            // get dynamic update
             for (user of userArr) {
-                getUpdate(user).then(update => {
-                    if (Date.now() - update.timestamp < parseInt(process.env.UPD_INTERVAL) + 3000) { // 有时候会错过所以+3s
-                        getDynamicDetail(update.dynamic_id, false).then(embed => {
-                            client.channels.fetch(process.env.FEED_CHANNEL).then(channel => {
-                                channel.send({ embeds: embed });
-                            })
-                        });
-                        console.log(`Updated: dynamic_id=${update.dynamic_id}`);
-                    }
-                })
+                const update = await getUpdate(user)
+                if (BigInt(update) > BigInt(dyns[user])) {
+                    const embed = await getDynamicDetail(update, false)
+                    await channel.send({ embeds: embed });
+                }
+            }
+
+            // get live update
+            const newlives = await getLiveStatus(userArr);
+            for (let i = 0; i < lives.length; i++) {
+                if (lives[i].fields[0].value != newlives[i].fields[0].value) {
+                    await channel.send({ content: newlives[i].fields[0].value == '直播中' ? '开播了' : '下播了', embeds: [newlives[i]] });
+                    lives[i] = newlives[i];
+                }
             }
         }, process.env.UPD_INTERVAL);
 
