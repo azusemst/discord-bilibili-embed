@@ -1,6 +1,7 @@
 const { Message, Events } = require('discord.js');
 const { getDynamicDetail } = require('../bili/dynamic');
 const { getVideoDetail } = require('../bili/video');
+const { getRoomDetail } = require('../bili/live');
 
 module.exports = {
     name: Events.MessageCreate,
@@ -14,6 +15,7 @@ module.exports = {
 
         const dynPattern = /t\.bilibili\.com\/\d+|bilibili\.com\/opus\/\d+/;
         const vidPattern = /((av\d{1,9})|(BV\w{8,10}))(?!\w)/;
+        const livePattern = /(?<=live\.bilibili\.com\/)\d{1,8})/;
 
         if (dynPattern.test(message.content)) {
             await getDynamicDetail(message.content.match(/(?<=bilibili\.com\/(opus\/)?)\d+/)[0])
@@ -42,6 +44,9 @@ module.exports = {
                         message.reply({ embeds: [embed] });
                     }
                 }).catch(error => console.log(error));
+        } else if (livePattern.test(message.content)) {
+            const embed = await getRoomDetail(message.content.match(livePattern)[0]);
+            if (embed) await message.reply({ embeds: [embed] });
         }
     }
 }
