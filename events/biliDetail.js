@@ -15,7 +15,7 @@ module.exports = {
 
         const dynPattern = /t\.bilibili\.com\/\d+|bilibili\.com\/opus\/\d+/;
         const vidPattern = /((av\d{1,9})|(BV\w{8,10}))(?!\w)/;
-        const livePattern = /(?<=live\.bilibili\.com\/)\d{1,8})/;
+        const livePattern = /(?<=live\.bilibili\.com\/)\d{1,8}/;
 
         if (dynPattern.test(message.content)) {
             await getDynamicDetail(message.content.match(/(?<=bilibili\.com\/(opus\/)?)\d+/)[0])

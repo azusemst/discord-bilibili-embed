@@ -24,7 +24,7 @@
 
 你可以使用支持直播流的播放器打开此链接，比如PotPlayer。这也方便你录制直播流。默认画质是原画 `quality=4` 。如果链接过期，请获取新链接。具体过期时间可参考url中的 `expires` 参数。
 
-### 2. 解析动态/直播链接和视频av/BV号
+### 3. 解析动态/直播链接和视频av/BV号
 
 向bot所在频道发送链接或av/BV号。bot需要 `GatewayIntentBits.MessageContent` 权限。
 
@@ -35,6 +35,14 @@
 av170001
 BV1Vg4y1W7q3
 https://www.bilibili.com/video/BV1Vg4y1W7q3/
+```
+### 4. 订阅动态和直播更新
+
+在 `.env` 中设置环境变量
+```js
+FOLLOWED_USER="3035105,1437582453" // b站uid，用英文逗号隔开，最多9个
+FEED_CHANNEL="558322816995426305" // 要推送的频道
+UPD_INTERVAL="60000" // 没必要太频繁，否则可能导致412
 ```
 ## Deploy
 ### 1. Local (for testing)
