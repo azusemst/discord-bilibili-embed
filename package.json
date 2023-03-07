@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node bili/live.js"
+    "test": "node utils/getConfig.js"
   },
   "keywords": [],
   "author": "",

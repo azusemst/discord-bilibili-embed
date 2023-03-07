@@ -23,6 +23,7 @@ async function getLiveStatus(uids) {
             embeds.push({
                 title: data.data[uid].title,
                 color: 5471318,
+                uid: uid,
                 timestamp: (() => {
                     if (data.data[uid].live_status == 1)
                         return new Date(data.data[uid].live_time * 1000).toISOString();

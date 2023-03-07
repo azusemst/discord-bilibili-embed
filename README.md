@@ -40,9 +40,12 @@ https://www.bilibili.com/video/BV1Vg4y1W7q3/
 
 在 `.env` 中设置环境变量
 ```js
-FOLLOWED_USER="3035105,1437582453" // b站uid，用英文逗号隔开，最多9个
-FEED_CHANNEL="558322816995426305" // 要推送的频道
-UPD_INTERVAL="60000" // 没必要太频繁，否则可能导致412
+BILI_CONFIG={"558322816995426305":"509050400,271887040,3035105,1437582453,9617619","946719330299682846":"11783021,9617619"} // 推送频道 - uid
+UPD_INTERVAL="60000" // 毫秒更新间隔，必须大于关注数*1000
+```
+其中，`BILI_CONFIG` 是json格式。一个uid可以在多个频道里推送
+```json
+{"channel1":"uid1,uid2","channel2":"uid1,uid2"}
 ```
 ## Deploy
 ### 1. Local (for testing)
@@ -62,12 +65,11 @@ Uncomment this line in `index.js`
 ```js
 // require('dotenv').config();
 ```
-Create a `.env` file. In the file, add two tokens
+Create a `.env` file
 ```js
 TOKEN="your bot token"
 CLIENT_ID="your bot client id"
-FOLLOWED_USER="bilibili uid"
-FEED_CHANNEL="discord channel id"
+BILI_CONFIG={"channel1":"uid1,uid2","channel2":"uid1,uid2"}
 UPD_INTERVAL="time interval in ms"
 ```
 Run the bot
