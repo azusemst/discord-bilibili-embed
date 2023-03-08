@@ -2,13 +2,13 @@
 ### 1. 查b站关注
 
 ```
-/follow uid:string
+/follow <uid>
 ```
 可突破隐私限制。每页显示50个结果，使用按钮翻页。按关注时间递减显示，最多显示250条。
 ### 2. 查直播间信息
 
 ```
-/liveinfo 输入类型:string 编号:string
+/liveinfo <输入类型> <编号>
 ```
 **包括：**
 - 直播间人气，关注，是否开播等基本信息
@@ -47,6 +47,11 @@ UPD_INTERVAL="60000" // 毫秒更新间隔，必须大于关注数*1000
 ```json
 {"channel1":"uid1,uid2","channel2":"uid1,uid2"}
 ```
+### 5. 匿名分享链接
+```
+/share <url>
+```
+在使用指令的频道匿名发送一个链接。支持b站，twitter，youtube链接。b站链接会解析后发送。
 ## Deploy
 ### 1. Local (for testing)
 
