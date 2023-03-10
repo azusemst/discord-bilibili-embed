@@ -241,16 +241,19 @@ function addPic(embeds, picArr) {
  * @returns {Promise<string>}
  */
 async function getUpdate(uid) {
-    return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(`Fetching dynamic history uid=${uid}, latest=${new Date(data.data.cards[0].desc.timestamp * 1000).toISOString()}`);
-            if (data.code != 0) {
-                console.log(`Error: ${data.code}`);
-                return;
-            }
-            return data.data.cards[0].desc.dynamic_id_str;
-        })
+    const response = await fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history?host_uid=${uid}`);
+    const data = await response.json();
+
+    console.log(`Fetching dynamic history uid=${uid}`);
+    if (data.code != 0) {
+        console.log(`Error: ${data.code}`);
+        return;
+    }
+    if (!data.data.cards) {
+        console.log(`User ${uid} has no dyns`);
+        return '-1';
+    }
+    return data.data.cards[0].desc.dynamic_id_str;
 }
 
 module.exports = { getDynamicDetail, getUpdate };
