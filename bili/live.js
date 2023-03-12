@@ -56,8 +56,9 @@ async function getLiveStatus(uids) {
 /**
  * 
  * @param {string} rid 
+ * @param {boolean} show_detail
  */
-async function getRoomDetail(rid) {
+async function getRoomDetail(rid, show_detail = false) {
     let response = await fetch(`https://api.live.bilibili.com/room/v1/Room/get_info?room_id=${rid}`);
     const data = await response.json();
     if (data.code != 0) {
@@ -85,17 +86,19 @@ async function getRoomDetail(rid) {
             name: '分区',
             value: `${data.data.parent_area_name} - ${data.data.area_name}`,
             inline: true
-        },
-        {
+        }]
+    }
+
+    if (show_detail) {
+        embed.fields.push({
             name: '粉丝',
             value: data.data.attention,
             inline: true
-        },
-        {
+        }, {
             name: '看过',
             value: data.data.online,
             inline: true
-        }]
+        });
     }
 
     if (data.data.live_status == 1)
@@ -116,6 +119,7 @@ async function getRoomDetail(rid) {
     embed.author.name = userData.data.info.uname;
     embed.author.icon_url = userData.data.info.face;
     embed.color = userData.data.exp.master_level.color;
+    if (!show_detail) return embed;
     embed.fields.push({
         name: '粉丝勋章',
         value: userData.data.medal_name,
@@ -178,7 +182,7 @@ async function getUserLive(uid) {
         return { description: '请求错误' };
     }
     if (data.data.roomStatus == 0) return { description: '无直播间' };
-    return await getRoomDetail(data.data.roomid);
+    return await getRoomDetail(data.data.roomid, true);
 }
 
 module.exports = { getLiveStatus, getRoomDetail, getUserLive };

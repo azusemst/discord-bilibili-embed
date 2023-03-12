@@ -16,7 +16,8 @@ module.exports = {
         .addStringOption(option => option
             .setName('编号')
             .setDescription('uid或房间号，一次只能查询一个')
-            .setRequired(true)),
+            .setRequired(true)
+            .setMaxLength(16)),
     /**
      * 
      * @param {ChatInputCommandInteraction} interaction 
@@ -34,7 +35,7 @@ module.exports = {
             const embed = await getUserLive(number);
             await interaction.editReply({ embeds: [embed] });
         } else {
-            const embed = await getRoomDetail(number);
+            const embed = await getRoomDetail(number, true);
             await interaction.editReply({ embeds: [embed] });
         }
     }
