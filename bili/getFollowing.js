@@ -19,6 +19,7 @@ async function getFollowing(uid, page) {
 }
 
 function followProcess(data, page) {
+    if (!data.list) return;
     if (data.list.length == 0) return;
 
     let desc = '';

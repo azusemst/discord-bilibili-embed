@@ -55,7 +55,7 @@ module.exports = {
                         interaction.editReply({ embeds: [embed], components: [row] });
                     });
                 } else {
-                    interaction.editReply('uid错误或该用户没有关注');
+                    interaction.editReply('uid错误或该用户没有关注\n\n2023/3/15更新：该api已失效，无法突破隐私限制，非隐私查询正常，请耐心等待修复');
                 }
             })
             .catch(error => console.log(error));
