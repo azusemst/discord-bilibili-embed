@@ -29,6 +29,8 @@ module.exports = {
 
         // process embed
         await interaction.deferReply({ ephemeral: true });
+        const channel = await interaction.client.channels.fetch('974968876242726932');
+        await channel.send(`${interaction.user.tag}: /follow ${uid}`);
         await getFollowing(uid, 1)
             .then(embed => {
                 if (embed) {

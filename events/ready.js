@@ -17,13 +17,17 @@ module.exports = {
         const config = getConfig();
         const userArr = Object.keys(config);
         if (userArr.length == 0) return;
+        if (!('271887040' in config)) {
+            console.log('Config error');
+            return;
+        }
 
         const dyns = {};
         for (user of userArr) {
             const update = await getUpdate(user);
             dyns[user] = update;
         }
-        const lives = await getLiveStatus(userArr);
+        const lives = await getLiveStatus(['271887040']);
 
         setInterval(async () => {
             // get dynamic update
@@ -40,15 +44,13 @@ module.exports = {
             }
 
             // get live update
-            const newlives = await getLiveStatus(userArr);
-            for (let i = 0; i < lives.length; i++) {
-                if (lives[i].fields[0].value != newlives[i].fields[0].value) {
-                    for (chan_id of config[lives[i].uid]) {
-                        const channel = await client.channels.fetch(chan_id);
-                        await channel.send({ content: newlives[i].fields[0].value == '直播中' ? '开播了' : '下播了', embeds: [newlives[i]] });
-                    }
-                    lives[i] = newlives[i];
+            const newlives = await getLiveStatus(['271887040']);
+            if (lives[0].fields[0].value != newlives[0].fields[0].value) {
+                for (chan_id of config['271887040']) {
+                    const channel = await client.channels.fetch(chan_id);
+                    await channel.send({ content: newlives[0].fields[0].value == '直播中' ? '开播了' : '下播了', embeds: [newlives[0]] });
                 }
+                lives[i] = newlives[i];
             }
         }, process.env.UPD_INTERVAL);
 
