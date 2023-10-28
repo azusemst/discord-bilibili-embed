@@ -40,10 +40,16 @@ https://www.bilibili.com/video/BV1Vg4y1W7q3/
 
 在 `.env` 中设置环境变量
 ```js
+TOKEN="你的discord bot token"
+CLIENT_ID="你的Client ID“
 BILI_CONFIG={"558322816995426305":"509050400,271887040,3035105,1437582453,9617619","946719330299682846":"11783021,9617619"} // 推送频道 - uid
 UPD_INTERVAL="60000" // 毫秒更新间隔，必须大于关注数*1000
+SESSDATA="你的SESSDATA，来自B站Cookie"
+bili_jct="你的bili_jct，来自B站Cookie"
 ```
 其中，`BILI_CONFIG` 是json格式。一个uid可以在多个频道里推送
+`TOKEN`和`CLIENT_ID`来自Discord Developer Portal生成bot后获取。记得给MessageContent权限，拉进你的discord频道。
+`SESSDATA`和`bili_jct`可以Chrome打开哔哩哔哩网站F12-应用-Cookie内找到
 ```json
 {"channel1":"uid1,uid2","channel2":"uid1,uid2"}
 ```
