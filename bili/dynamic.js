@@ -30,15 +30,28 @@ const types = {
  * @param {string} dynamic_id 
  */
 async function getDynamicDetail(dynamic_id, show_detail = true) {
-    return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/get_dynamic_detail?dynamic_id=${dynamic_id}`)
-        .then((response) => response.json())
+    const SESSDATA = process.env.SESSDATA; 
+    const csrf = process.env.bili_jct; 
+
+    return fetch(`https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/get_dynamic_detail?dynamic_id=${dynamic_id}`, {
+        headers: {
+            'Cookie': `SESSDATA=${SESSDATA}; bili_jct=${csrf}`,
+        }
+    })
+        .then((response) => {
+            console.log(response); // Log the full response
+            return response.json();
+        })
         .then((data) => {
             console.log(`Fetching dynamic_id = ${dynamic_id}`);
+            console.log(data); // Log the full data
             return dynamicProcess(data.data, dynamic_id, show_detail);
         })
 }
 
+
 function dynamicProcess(dynamic, id, show_detail) {
+    console.log(dynamic);
     if (!('card' in dynamic)) {
         console.log('404 Not Found');
         return;
