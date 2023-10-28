@@ -80,8 +80,10 @@ Create a `.env` file
 ```js
 TOKEN="your bot token"
 CLIENT_ID="your bot client id"
-BILI_CONFIG={"channel1":"uid1,uid2","channel2":"uid1,uid2"}
+BILI_CONFIG={"channel1 ID":"uid1,uid2","channel2 ID":"uid1,uid2"}
 UPD_INTERVAL="time interval in ms"
+SESSDATA="SESSDATA from your bilibili Cookie"
+bili_jct="bili_jct from your bilibili Cookie
 ```
 Run the bot
 ```
